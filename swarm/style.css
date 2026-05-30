@@ -593,7 +593,7 @@ input:checked + .slider-switch:before {
     background: rgba(3, 2, 8, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    z-index: 100;
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -794,11 +794,35 @@ input:checked + .slider-switch:before {
         padding: 10px 16px;
     }
 
+    .logo-area {
+        gap: 8px;
+    }
+
+    .logo-dot {
+        display: none;
+    }
+
     .app-header h1 {
         font-size: 1.1rem;
     }
 
     .logo-badge {
+        display: none;
+    }
+
+    .header-actions {
+        padding-left: 8px;
+        gap: 8px;
+    }
+
+    .header-toggle {
+        padding: 10px;
+        width: 42px;
+        height: 42px;
+        justify-content: center;
+    }
+
+    .header-toggle span {
         display: none;
     }
 
