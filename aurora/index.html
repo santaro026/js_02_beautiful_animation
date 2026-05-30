@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Drift - Gaseous Plasma Fluid Dynamics</title>
+    <meta name="description" content="Experience beautiful, gaseous plasma flows mimicking the Northern Lights. Interact with velocity vector fields and ambient synthesized drone sounds.">
+    <meta name="keywords" content="aurora, plasma fluid dynamics, flow field, html5 canvas, audio synthesis, generative art">
+    <meta name="author" content="Antigravity Coding Assistant">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main Background Canvas -->
+    <canvas id="auroraCanvas" aria-label="Interactive Fluid Plasma Canvas"></canvas>
+    
+    <!-- Overlay UI Layout -->
+    <main class="ui-wrapper">
+        <!-- Floating Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <a href="../index.html" class="icon-btn tooltip back-home-btn" data-tooltip="Back to Portal" aria-label="Back to Portal" style="text-decoration: none; color: inherit; width: 38px; height: 38px;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" style="display: block;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                    </svg>
+                </a>
+                <span class="logo-dot"></span>
+                <h1>AURORA DRIFT</h1>
+                <span class="logo-badge">Plasma v1.0</span>
+            </div>
+            <div class="header-actions">
+                <button id="quickSoundBtn" class="icon-btn tooltip" data-tooltip="Toggle Ambient Drone" aria-label="Toggle Drone">
+                    <svg class="sound-on-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                    <svg class="sound-off-icon hidden" viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                    </svg>
+                </button>
+                <button id="toggleControlsBtn" class="action-btn header-toggle" aria-label="Toggle Settings Panel">
+                    <span>Configure</span>
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Counter -->
+        <section class="diagnostics-panel" aria-label="Performance Diagnostics">
+            <div class="stat-item">
+                <span class="stat-label">FPS</span>
+                <span id="fpsValue" class="stat-value">60</span>
+            </div>
+            <div class="stat-separator"></div>
+            <div class="stat-item">
+                <span class="stat-label">Plasma Nodes</span>
+                <span id="nodesCount" class="stat-value">0</span>
+            </div>
+            <div class="stat-separator"></div>
+            <div class="stat-item">
+                <span class="stat-label">Flow Vectors</span>
+                <span id="velocityFactor" class="stat-value">Fluid</span>
+            </div>
+        </section>
+
+        <!-- Dynamic Control Sidebar -->
+        <aside id="settingsPanel" class="settings-sidebar active" aria-label="Visual and Physics Settings">
+            <div class="sidebar-header">
+                <h2>Aurora Controller</h2>
+                <button id="closeSidebarBtn" class="close-btn" aria-label="Hide panel">
+                    <svg viewBox="0 0 24 24" width="18" height="18">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="sidebar-content">
+                <!-- Presets -->
+                <div class="control-group">
+                    <h3 class="group-title">Atmospheric Presets</h3>
+                    <div class="preset-grid">
+                        <button class="preset-btn" data-preset="borealis">
+                            <span>💚 Borealis Glow</span>
+                        </button>
+                        <button class="preset-btn" data-preset="solar-wind">
+                            <span>🔥 Solar Flare</span>
+                        </button>
+                        <button class="preset-btn" data-preset="cosmic-storm">
+                            <span>⚡ Electric Storm</span>
+                        </button>
+                        <button class="preset-btn" data-preset="violet-dream">
+                            <span>💜 Violet Horizon</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Simulation Settings -->
+                <div class="control-group">
+                    <h3 class="group-title">Fluid Controls</h3>
+                    
+                    <div class="control-row slider-row">
+                        <div class="slider-labels">
+                            <label for="particleDensity">Fluid Particle Count</label>
+                            <span id="particleDensityVal" class="slider-display">1200</span>
+                        </div>
+                        <input type="range" id="particleDensity" min="200" max="3000" step="100" value="1200">
+                    </div>
+
+                    <div class="control-row slider-row">
+                        <div class="slider-labels">
+                            <label for="flowSpeed">Plasma Flow Speed</label>
+                            <span id="flowSpeedVal" class="slider-display">Normal</span>
+                        </div>
+                        <input type="range" id="flowSpeed" min="0.2" max="2.5" step="0.1" value="1.0">
+                    </div>
+
+                    <div class="control-row slider-row">
+                        <div class="slider-labels">
+                            <label for="turbulence">Wave Turbulence</label>
+                            <span id="turbulenceVal" class="slider-display">Medium</span>
+                        </div>
+                        <input type="range" id="turbulence" min="0.1" max="3.0" step="0.1" value="1.2">
+                    </div>
+                </div>
+
+                <!-- Customization -->
+                <div class="control-group">
+                    <h3 class="group-title">Aurora Styling</h3>
+
+                    <div class="control-row select-row">
+                        <label for="colorTheme">Color Nebula</label>
+                        <div class="select-wrapper">
+                            <select id="colorTheme">
+                                <option value="emerald" selected>💚 Emerald Borealis</option>
+                                <option value="solar">🔥 Solar Radiation</option>
+                                <option value="cosmic">🌌 Electric Neon</option>
+                                <option value="violet">💜 Amethyst Dream</option>
+                                <option value="rainbow">🌈 Spectrum Shift</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-row slider-row">
+                        <div class="slider-labels">
+                            <label for="trailPersistence">Trail Persistence</label>
+                            <span id="trailPersistenceVal" class="slider-display">Long</span>
+                        </div>
+                        <input type="range" id="trailPersistence" min="0.01" max="0.15" step="0.005" value="0.04">
+                    </div>
+
+                    <div class="control-row slider-row">
+                        <div class="slider-labels">
+                            <label for="glowIntensity">Blur &amp; Glow</label>
+                            <span id="glowIntensityVal" class="slider-display">High</span>
+                        </div>
+                        <input type="range" id="glowIntensity" min="0" max="15" step="1" value="8">
+                    </div>
+                </div>
+
+                <!-- Audio Controls -->
+                <div class="control-group">
+                    <h3 class="group-title">Solar Wind Synthesizer</h3>
+
+                    <div class="control-row toggle-row">
+                        <label for="soundToggle">Enable Cosmic Drone</label>
+                        <label class="switch-container">
+                            <input type="checkbox" id="soundToggle" checked>
+                            <span class="slider-switch"></span>
+                        </label>
+                    </div>
+
+                    <div class="control-row slider-row">
+                        <div class="slider-labels">
+                            <label for="volumeSlider">Drone Volume</label>
+                            <span id="volumeSliderVal" class="slider-display">50%</span>
+                        </div>
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.5">
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <p>🌌 Cosmic Fluid: Click and drag to inject solar kinetic velocity fields!</p>
+            </div>
+        </aside>
+
+        <!-- Tap instructions overlay -->
+        <div class="instruction-overlay" id="instructionOverlay">
+            <div class="instruction-content">
+                <svg viewBox="0 0 24 24" width="48" height="48" class="pulse-icon" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 3.03v.568c0 .334.148.65.405.864l4.038 3.348a.75.75 0 0 1 0 1.15l-4.038 3.349a.867.867 0 0 1-.405.864v.568m-6-13.064v.568c0 .334.148.65.405.864l4.038 3.348a.75.75 0 0 1 0 1.15l-4.038 3.349a.867.867 0 0 1-.405.864v.568" />
+                </svg>
+                <p class="instruction-title">Solar Wind Simulation</p>
+                <p class="instruction-text">Drag your cursor to sweep energy streams into the magnetic field. A deep, reactive atmospheric synthesizer will track your movements!</p>
+                <button class="dismiss-btn" id="dismissInstructionsBtn">Enter Aurora</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- App Script -->
+    <script src="app.js"></script>
+</body>
+</html>

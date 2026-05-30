@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetheria - Cosmic Animation Lab</title>
+    <meta name="description" content="A curated collection of beautiful, interactive physics animations, math dynamics, and sensory simulations built with premium vanilla technologies.">
+    <meta name="keywords" content="interactive art, html5 canvas, particle physics, generative art, glassmorphic dashboard, creative coding">
+    <meta name="author" content="Antigravity Coding Assistant">
+    
+    <!-- Open Graph for sharing -->
+    <meta property="og:title" content="Aetheria - Cosmic Animation Lab">
+    <meta property="og:description" content="A premium showcase of gorgeous, interactive physics animations and creative experiments.">
+    <meta property="og:type" content="website">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Root Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Interactive Background Canvas (Sleek Space Dust Particles) -->
+    <canvas id="portalCanvas"></canvas>
+
+    <div class="app-container">
+        <!-- Floating Header -->
+        <header class="main-header">
+            <div class="logo-area">
+                <div class="logo-orb">
+                    <div class="orb-core"></div>
+                    <div class="orb-ring"></div>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-title">AETHERIA</span>
+                    <span class="brand-tagline">Animation Lab</span>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <div class="system-status">
+                    <span class="status-indicator-ping"></span>
+                    <span class="status-text">SYSTEM ACTIVE</span>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="portal-main">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="badge-wrapper">
+                    <span class="explore-badge">Generative Art Portfolio</span>
+                </div>
+                <h1 class="hero-title">
+                    Interactive <span class="gradient-text">Sensory</span> Simulations
+                </h1>
+                <p class="hero-subtitle">
+                    An elegant collection of high-performance physics systems, mathematical chaos, and beautiful particle engines crafted with raw web technologies.
+                </p>
+            </section>
+
+            <!-- Showcase Grid -->
+            <section class="showcase-section">
+                <div class="section-header">
+                    <h2>Select an Experience</h2>
+                    <p>Click to step into the dynamic canvas sandbox</p>
+                </div>
+
+                <div class="apps-grid">
+                    <!-- App 1: Neon Flame (Live Fireworks) -->
+                    <article class="app-card active-app">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="app-icon fireworks-icon">
+                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.467 5.99 5.99 0 0 0-1.925 3.546 5.974 5.974 0 0 1-2.133-1A3.75 3.75 0 0 0 12 18Z" />
+                                    </svg>
+                                </div>
+                                <span class="status-badge live">READY</span>
+                            </div>
+                            <div class="card-body">
+                                <h3>Neon Flame</h3>
+                                <p class="card-subtitle">Cosmic Fireworks Showcase</p>
+                                <p class="card-description">
+                                    An immersive particle physics simulator with synthetic sound synthesis, customized gravity parameters, dynamic wind drift, and gorgeous glassmorphic control panels.
+                                </p>
+                            </div>
+                            <div class="card-tech">
+                                <span>HTML5 Canvas</span>
+                                <span>Web Audio API</span>
+                                <span>Vector Physics</span>
+                            </div>
+                            <div class="card-footer">
+                                <a href="fireworks/index.html" class="launch-btn">
+                                    <span>Launch Space</span>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- App 2: Fluid Aurora (Active) -->
+                    <article class="app-card active-app">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="app-icon aurora-icon">
+                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z" />
+                                    </svg>
+                                </div>
+                                <span class="status-badge live">READY</span>
+                            </div>
+                            <div class="card-body">
+                                <h3>Aurora Drift</h3>
+                                <p class="card-subtitle">Plasma Fluid Dynamics</p>
+                                <p class="card-description">
+                                    Simulating kinetic gaseous particles and vector velocity fields. Step into an interactive, reactive curtain of solar winds mimicking the Northern Lights, accompanied by an ambient drone.
+                                </p>
+                            </div>
+                            <div class="card-tech">
+                                <span>HTML5 Canvas</span>
+                                <span>Vector Fields</span>
+                                <span>Resonant Synth</span>
+                            </div>
+                            <div class="card-footer">
+                                <a href="aurora/index.html" class="launch-btn">
+                                    <span>Launch Space</span>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- App 3: Mathematical Attractors (Active) -->
+                    <article class="app-card active-app">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="app-icon attractor-icon">
+                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                                    </svg>
+                                </div>
+                                <span class="status-badge live">READY</span>
+                            </div>
+                            <div class="card-body">
+                                <h3>Quantum Chaos</h3>
+                                <p class="card-subtitle">3D Mathematical Attractors</p>
+                                <p class="card-description">
+                                    Explore mathematical determinism and chaotic turbulence in a projected 3D space. Manipulate Lorenz and Aizawa attractors, rotate the camera field, and sonify physics.
+                                </p>
+                            </div>
+                            <div class="card-tech">
+                                <span>3D Projection</span>
+                                <span>Chaos Equations</span>
+                                <span>FM Synth chain</span>
+                            </div>
+                            <div class="card-footer">
+                                <a href="chaos/index.html" class="launch-btn">
+                                    <span>Launch Space</span>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- App 4: Swarm Intelligence (Active) -->
+                    <article class="app-card active-app">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="app-icon swarm-icon">
+                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                                    </svg>
+                                </div>
+                                <span class="status-badge live">READY</span>
+                            </div>
+                            <div class="card-body">
+                                <h3>Synaptic Swarm</h3>
+                                <p class="card-subtitle">Emergent Boid Behavior</p>
+                                <p class="card-description">
+                                    An elegant simulation of flocking physics, collision avoidance, and neural network synapses. Witness boids form dynamic meshes with collective FM purrs and granular clicks.
+                                </p>
+                            </div>
+                            <div class="card-tech">
+                                <span>Boids Kinematics</span>
+                                <span>Synapse Graphs</span>
+                                <span>Granular Synth</span>
+                            </div>
+                            <div class="card-footer">
+                                <a href="swarm/index.html" class="launch-btn">
+                                    <span>Launch Space</span>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p>&copy; 2026 Aetheria Lab. Built with premium Vanilla Javascript &amp; CSS.</p>
+            <div class="footer-links">
+                <span class="footer-dot"></span>
+                <span>Version 1.0.0</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Entrance Script -->
+    <script src="app.js"></script>
+</body>
+</html>
