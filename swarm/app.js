@@ -71,6 +71,11 @@ class SwarmSimulation {
         // Click to add permanent gravitational core attractor
         this.canvas.addEventListener('mousedown', (e) => {
             if (e.target.closest('aside, header, button, select')) return;
+            // Auto close mobile menu if clicking on canvas
+            if (window.innerWidth <= 1024) {
+                const sidebar = document.getElementById('settingsPanel');
+                sidebar.classList.remove('active');
+            }
             this.soundEngine.startEngine();
             
             // Left click adds permanent attractor
@@ -98,6 +103,11 @@ class SwarmSimulation {
         // Mobile touch support
         this.canvas.addEventListener('touchstart', (e) => {
             if (e.target.closest('aside, header, button, select')) return;
+            // Auto close mobile menu if clicking on canvas
+            if (window.innerWidth <= 1024) {
+                const sidebar = document.getElementById('settingsPanel');
+                sidebar.classList.remove('active');
+            }
             this.soundEngine.startEngine();
             const touch = e.touches[0];
             
@@ -150,32 +160,31 @@ class SwarmSimulation {
 
         // Mute / Sound toggle button
         const quickSoundBtn = document.getElementById('quickSoundBtn');
+        const soundToggle = document.getElementById('soundToggle');
         const soundOn = quickSoundBtn.querySelector('.sound-on-icon');
         const soundOff = quickSoundBtn.querySelector('.sound-off-icon');
         
+        const updateSoundUI = (enabled) => {
+            if (enabled) {
+                soundOn.classList.remove('hidden');
+                soundOff.classList.add('hidden');
+                soundToggle.checked = true;
+            } else {
+                soundOn.classList.add('hidden');
+                soundOff.classList.remove('hidden');
+                soundToggle.checked = false;
+            }
+        };
+
         quickSoundBtn.addEventListener('click', () => {
             const isActive = this.soundEngine.toggleMute();
-            if (isActive) {
-                soundOn.classList.remove('hidden');
-                soundOff.classList.add('hidden');
-                document.getElementById('soundToggle').checked = true;
-            } else {
-                soundOn.classList.add('hidden');
-                soundOff.classList.remove('hidden');
-                document.getElementById('soundToggle').checked = false;
-            }
+            updateSoundUI(isActive);
         });
 
-        document.getElementById('soundToggle').addEventListener('change', (e) => {
+        soundToggle.addEventListener('change', (e) => {
             const isMuted = !e.target.checked;
             this.soundEngine.setMuted(isMuted);
-            if (e.target.checked) {
-                soundOn.classList.remove('hidden');
-                soundOff.classList.add('hidden');
-            } else {
-                soundOn.classList.add('hidden');
-                soundOff.classList.remove('hidden');
-            }
+            updateSoundUI(!isMuted);
         });
 
         // Master Volume
@@ -250,52 +259,38 @@ class SwarmSimulation {
     }
 
     loadPreset(presetName) {
-        const d = {
-            count: 160, speed: 4.0, sep: 1.5, coh: 1.0, ali: 1.0, dist: 75, theme: 'cyan'
+        const syncUIElement = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.value = val;
+                el.dispatchEvent(new Event('input'));
+                el.dispatchEvent(new Event('change'));
+            }
         };
 
+        let countVal, speedVal, sepVal, cohVal, aliVal, distVal, themeVal;
+
         if (presetName === 'tight-flock') {
-            d.count = 200; d.speed = 3.5; d.sep = 1.8; d.coh = 1.4; d.ali = 1.4; d.dist = 70; d.theme = 'cyan';
+            countVal = 200; speedVal = 3.5; sepVal = 1.8; cohVal = 1.4; aliVal = 1.4; distVal = 70; themeVal = 'cyan';
         } else if (presetName === 'chaotic-swarm') {
-            d.count = 240; d.speed = 6.2; d.sep = 2.5; d.coh = 0.3; d.ali = 0.4; d.dist = 55; d.theme = 'orange';
+            countVal = 240; speedVal = 6.2; sepVal = 2.5; cohVal = 0.3; aliVal = 0.4; distVal = 55; themeVal = 'orange';
         } else if (presetName === 'slow-orbit') {
-            d.count = 150; d.speed = 2.8; d.sep = 1.2; d.coh = 1.1; d.ali = 0.8; d.dist = 90; d.theme = 'violet';
+            countVal = 150; speedVal = 2.8; sepVal = 1.2; cohVal = 1.1; aliVal = 0.8; distVal = 90; themeVal = 'violet';
         } else if (presetName === 'neural-net') {
-            d.count = 100; d.speed = 1.6; d.sep = 0.6; d.coh = 1.8; d.ali = 0.5; d.dist = 110; d.theme = 'cyan';
+            countVal = 100; speedVal = 1.6; sepVal = 0.6; cohVal = 1.8; aliVal = 0.5; distVal = 110; themeVal = 'cyan';
+        } else {
+            countVal = 160; speedVal = 4.0; sepVal = 1.5; cohVal = 1.0; aliVal = 1.0; distVal = 75; themeVal = 'cyan';
         }
 
-        // Apply
-        this.agentCount = d.count;
-        this.maxSpeed = d.speed;
-        this.weights.separation = d.sep;
-        this.weights.cohesion = d.coh;
-        this.weights.alignment = d.ali;
-        this.synapseDist = d.dist;
-        this.theme = d.theme;
+        // Apply sliders via syncUIElement which dispatches 'input' and 'change' events
+        syncUIElement('agentCount', countVal);
+        syncUIElement('maxSpeed', speedVal);
+        syncUIElement('separationWeight', sepVal);
+        syncUIElement('cohesionWeight', cohVal);
+        syncUIElement('alignmentWeight', aliVal);
+        syncUIElement('synapseDist', distVal);
+        syncUIElement('colorTheme', themeVal);
 
-        // Sync values to UI
-        document.getElementById('agentCount').value = d.count;
-        document.getElementById('agentCountVal').innerText = d.count;
-
-        document.getElementById('maxSpeed').value = d.speed;
-        document.getElementById('maxSpeedVal').innerText = d.speed.toFixed(1);
-
-        document.getElementById('separationWeight').value = d.sep;
-        document.getElementById('separationWeightVal').innerText = d.sep.toFixed(1);
-
-        document.getElementById('cohesionWeight').value = d.coh;
-        document.getElementById('cohesionWeightVal').innerText = d.coh.toFixed(1);
-
-        document.getElementById('alignmentWeight').value = d.ali;
-        document.getElementById('alignmentWeightVal').innerText = d.ali.toFixed(1);
-
-        document.getElementById('synapseDist').value = d.dist;
-        document.getElementById('synapseDistVal').innerText = `${d.dist}px`;
-
-        document.getElementById('colorTheme').value = d.theme;
-        this.boids.forEach(b => b.resetColor(d.theme));
-
-        this.adjustFlockSize();
         this.soundEngine.triggerGranularPing(800.0);
     }
 

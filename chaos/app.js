@@ -70,6 +70,11 @@ class ChaosSimulation {
     setupEventListeners() {
         // Drag Orbit Events
         this.canvas.addEventListener('mousedown', (e) => {
+            // Auto close mobile menu if clicking on canvas
+            if (window.innerWidth <= 1024) {
+                const sidebar = document.getElementById('settingsPanel');
+                sidebar.classList.remove('active');
+            }
             this.mouse.isDragging = true;
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY;
@@ -97,6 +102,11 @@ class ChaosSimulation {
 
         // Touch Support for Mobile Orbit
         this.canvas.addEventListener('touchstart', (e) => {
+            // Auto close mobile menu if clicking on canvas
+            if (window.innerWidth <= 1024) {
+                const sidebar = document.getElementById('settingsPanel');
+                sidebar.classList.remove('active');
+            }
             if (e.touches.length === 1) {
                 this.mouse.isDragging = true;
                 const touch = e.touches[0];
@@ -160,32 +170,31 @@ class ChaosSimulation {
 
         // Mute / Sound toggle
         const quickSoundBtn = document.getElementById('quickSoundBtn');
+        const soundToggle = document.getElementById('soundToggle');
         const soundOn = quickSoundBtn.querySelector('.sound-on-icon');
         const soundOff = quickSoundBtn.querySelector('.sound-off-icon');
         
+        const updateSoundUI = (enabled) => {
+            if (enabled) {
+                soundOn.classList.remove('hidden');
+                soundOff.classList.add('hidden');
+                soundToggle.checked = true;
+            } else {
+                soundOn.classList.add('hidden');
+                soundOff.classList.remove('hidden');
+                soundToggle.checked = false;
+            }
+        };
+
         quickSoundBtn.addEventListener('click', () => {
             const isActive = this.sonifier.toggleMute();
-            if (isActive) {
-                soundOn.classList.remove('hidden');
-                soundOff.classList.add('hidden');
-                document.getElementById('soundToggle').checked = true;
-            } else {
-                soundOn.classList.add('hidden');
-                soundOff.classList.remove('hidden');
-                document.getElementById('soundToggle').checked = false;
-            }
+            updateSoundUI(isActive);
         });
 
-        document.getElementById('soundToggle').addEventListener('change', (e) => {
+        soundToggle.addEventListener('change', (e) => {
             const isMuted = !e.target.checked;
             this.sonifier.setMuted(isMuted);
-            if (e.target.checked) {
-                soundOn.classList.remove('hidden');
-                soundOff.classList.add('hidden');
-            } else {
-                soundOn.classList.add('hidden');
-                soundOff.classList.remove('hidden');
-            }
+            updateSoundUI(!isMuted);
         });
 
         // Master Volume

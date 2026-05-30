@@ -96,6 +96,11 @@ class AuroraSimulation {
         // Desktop Events
         window.addEventListener('mousedown', (e) => {
             if (e.target.closest('aside, header, button, select')) return;
+            // Auto close mobile menu if clicking on canvas
+            if (window.innerWidth <= 1024) {
+                const sidebar = document.getElementById('settingsPanel');
+                sidebar.classList.remove('active');
+            }
             handleStart(e.clientX, e.clientY);
         });
         window.addEventListener('mousemove', (e) => {
@@ -106,6 +111,11 @@ class AuroraSimulation {
         // Mobile Touch Events
         window.addEventListener('touchstart', (e) => {
             if (e.target.closest('aside, header, button, select')) return;
+            // Auto close mobile menu if clicking on canvas
+            if (window.innerWidth <= 1024) {
+                const sidebar = document.getElementById('settingsPanel');
+                sidebar.classList.remove('active');
+            }
             const touch = e.touches[0];
             handleStart(touch.clientX, touch.clientY);
         });
@@ -143,33 +153,32 @@ class AuroraSimulation {
 
         // Toggle sound btn
         const quickSoundBtn = document.getElementById('quickSoundBtn');
+        const soundToggle = document.getElementById('soundToggle');
         const soundOn = quickSoundBtn.querySelector('.sound-on-icon');
         const soundOff = quickSoundBtn.querySelector('.sound-off-icon');
         
-        quickSoundBtn.addEventListener('click', () => {
-            const isActive = this.soundEngine.toggleMute();
-            if (isActive) {
+        const updateSoundUI = (enabled) => {
+            if (enabled) {
                 soundOn.classList.remove('hidden');
                 soundOff.classList.add('hidden');
-                document.getElementById('soundToggle').checked = true;
+                soundToggle.checked = true;
             } else {
                 soundOn.classList.add('hidden');
                 soundOff.classList.remove('hidden');
-                document.getElementById('soundToggle').checked = false;
+                soundToggle.checked = false;
             }
+        };
+
+        quickSoundBtn.addEventListener('click', () => {
+            const isActive = this.soundEngine.toggleMute();
+            updateSoundUI(isActive);
         });
 
         // Sidebar Sound Toggle
-        document.getElementById('soundToggle').addEventListener('change', (e) => {
+        soundToggle.addEventListener('change', (e) => {
             const isMuted = !e.target.checked;
             this.soundEngine.setMuted(isMuted);
-            if (e.target.checked) {
-                soundOn.classList.remove('hidden');
-                soundOff.classList.add('hidden');
-            } else {
-                soundOn.classList.add('hidden');
-                soundOff.classList.remove('hidden');
-            }
+            updateSoundUI(!isMuted);
         });
 
         // Master Volume
@@ -253,64 +262,36 @@ class AuroraSimulation {
     }
 
     loadPreset(presetName) {
-        const d = {
-            density: 1200,
-            speed: 1.0,
-            turb: 1.2,
-            persistence: 0.04,
-            glow: 8,
-            theme: 'emerald'
+        const syncUIElement = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.value = val;
+                el.dispatchEvent(new Event('input'));
+                el.dispatchEvent(new Event('change'));
+            }
         };
 
+        let densityVal, speedVal, turbVal, persistenceVal, glowVal, themeVal;
+
         if (presetName === 'borealis') {
-            d.density = 1400; d.speed = 0.8; d.turb = 1.2; d.persistence = 0.04; d.glow = 8; d.theme = 'emerald';
+            densityVal = 1400; speedVal = 0.8; turbVal = 1.2; persistenceVal = 0.04; glowVal = 8; themeVal = 'emerald';
         } else if (presetName === 'solar-wind') {
-            d.density = 2000; d.speed = 1.7; d.turb = 2.2; d.persistence = 0.05; d.glow = 10; d.theme = 'solar';
+            densityVal = 2000; speedVal = 1.7; turbVal = 2.2; persistenceVal = 0.05; glowVal = 10; themeVal = 'solar';
         } else if (presetName === 'cosmic-storm') {
-            d.density = 2400; d.speed = 2.2; d.turb = 2.8; d.persistence = 0.03; d.glow = 12; d.theme = 'cosmic';
+            densityVal = 2400; speedVal = 2.2; turbVal = 2.8; persistenceVal = 0.03; glowVal = 12; themeVal = 'cosmic';
         } else if (presetName === 'violet-dream') {
-            d.density = 900; d.speed = 0.5; d.turb = 0.7; d.persistence = 0.015; d.glow = 6; d.theme = 'violet';
+            densityVal = 900; speedVal = 0.5; turbVal = 0.7; persistenceVal = 0.015; glowVal = 6; themeVal = 'violet';
+        } else {
+            densityVal = 1200; speedVal = 1.0; turbVal = 1.2; persistenceVal = 0.04; glowVal = 8; themeVal = 'emerald';
         }
 
-        // Apply sliders
-        this.density = d.density;
-        this.speedScale = d.speed;
-        this.turbulence = d.turb;
-        this.trailPersistence = d.persistence;
-        this.glowBlur = d.glow;
-        this.theme = d.theme;
-
-        // Sync visual UI elements
-        document.getElementById('particleDensity').value = d.density;
-        document.getElementById('particleDensityVal').innerText = d.density;
-
-        document.getElementById('flowSpeed').value = d.speed;
-        let speedText = 'Normal';
-        if (d.speed > 1.8) speedText = 'Tempest';
-        else if (d.speed > 1.3) speedText = 'Rapid';
-        else if (d.speed < 0.5) speedText = 'Languid';
-        document.getElementById('flowSpeedVal').innerText = speedText;
-
-        document.getElementById('turbulence').value = d.turb;
-        let turbText = 'Medium';
-        if (d.turb > 2.2) turbText = 'Chaotic';
-        else if (d.turb < 0.6) turbText = 'Laminar';
-        document.getElementById('turbulenceVal').innerText = turbText;
-
-        document.getElementById('trailPersistence').value = d.persistence;
-        let trailText = 'Long';
-        if (d.persistence > 0.08) trailText = 'Short';
-        else if (d.persistence < 0.02) trailText = 'Infinite';
-        document.getElementById('trailPersistenceVal').innerText = trailText;
-
-        document.getElementById('glowIntensity').value = d.glow;
-        let glowText = 'High';
-        if (d.glow > 11) glowText = 'Super';
-        else if (d.glow === 0) glowText = 'None';
-        document.getElementById('glowIntensityVal').innerText = glowText;
-
-        document.getElementById('colorTheme').value = d.theme;
-        this.particles.forEach(p => p.resetColor(d.theme));
+        // Apply sliders via syncUIElement which dispatches 'input' and 'change' events
+        syncUIElement('particleDensity', densityVal);
+        syncUIElement('flowSpeed', speedVal);
+        syncUIElement('turbulence', turbVal);
+        syncUIElement('trailPersistence', persistenceVal);
+        syncUIElement('glowIntensity', glowVal);
+        syncUIElement('colorTheme', themeVal);
     }
 
     adjustParticleCount() {

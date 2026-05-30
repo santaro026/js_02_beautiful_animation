@@ -66,6 +66,7 @@ body, html {
     z-index: 10;
     pointer-events: none; /* Let clicks pass through to canvas by default */
     display: grid;
+    grid-template-rows: auto 1fr;
     grid-template-columns: 1fr auto;
     grid-template-areas: 
         "header sidebar"
@@ -264,26 +265,28 @@ body, html {
 /* Glassmorphic Sidebar */
 .settings-sidebar {
     grid-area: sidebar;
-    width: 340px;
-    height: calc(100% - 8px);
-    margin: 4px 0;
+    width: 380px;
+    max-height: calc(100vh - 48px);
     background: rgba(4, 3, 10, 0.55);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
     box-shadow: var(--glass-shadow);
+    border-radius: 24px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    pointer-events: none;
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-    animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateX(calc(100% + 40px));
+    animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.settings-sidebar:not(.active) {
-    transform: translateX(380px);
-    opacity: 0;
-    pointer-events: none;
+.settings-sidebar.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
 }
 
 .sidebar-header {
@@ -746,20 +749,69 @@ input:checked + .slider-switch:before {
     transform: translateX(-50%) scale(1);
 }
 
-/* Responsiveness */
-@media (max-width: 900px) {
+/* Responsive Grid / Media Queries */
+@media (max-width: 1024px) {
     .ui-wrapper {
+        padding: 16px;
         grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
         grid-template-areas: 
             "header"
+            "empty"
             "diagnostics";
-        gap: 16px;
     }
+
     .settings-sidebar {
         position: fixed;
         right: 16px;
         top: 80px;
-        height: calc(100% - 100px);
+        bottom: 80px;
         z-index: 100;
+        height: auto;
+        max-height: calc(100vh - 160px);
+        transform: translateX(calc(100% + 40px));
+        opacity: 0;
+    }
+
+    .settings-sidebar.active {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    
+    .header-toggle {
+        display: flex;
+    }
+}
+
+@media (max-width: 500px) {
+    .ui-wrapper {
+        padding: 12px;
+    }
+
+    .app-header {
+        width: 100%;
+        justify-content: space-between;
+        padding: 10px 16px;
+    }
+
+    .app-header h1 {
+        font-size: 1.1rem;
+    }
+
+    .logo-badge {
+        display: none;
+    }
+
+    .settings-sidebar {
+        width: calc(100% - 24px);
+        right: 12px;
+        top: 76px;
+        bottom: 76px;
+    }
+
+    .diagnostics-panel {
+        width: 100%;
+        justify-content: space-around;
+        padding: 8px 12px;
     }
 }
